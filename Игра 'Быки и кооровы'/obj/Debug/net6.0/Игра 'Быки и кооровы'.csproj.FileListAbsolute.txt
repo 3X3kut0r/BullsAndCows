@@ -1,0 +1,14 @@
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\bin\Debug\net6.0\Игра 'Быки и кооровы'.exe
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\bin\Debug\net6.0\Игра 'Быки и кооровы'.deps.json
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\bin\Debug\net6.0\Игра 'Быки и кооровы'.runtimeconfig.json
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\bin\Debug\net6.0\Игра 'Быки и кооровы'.dll
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\bin\Debug\net6.0\Игра 'Быки и кооровы'.pdb
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\obj\Debug\net6.0\Игра 'Быки и кооровы'.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\obj\Debug\net6.0\Игра 'Быки и кооровы'.AssemblyInfoInputs.cache
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\obj\Debug\net6.0\Игра 'Быки и кооровы'.AssemblyInfo.cs
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\obj\Debug\net6.0\Игра 'Быки и кооровы'.csproj.CoreCompileInputs.cache
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\obj\Debug\net6.0\Игра 'Быки и кооровы'.dll
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\obj\Debug\net6.0\refint\Игра 'Быки и кооровы'.dll
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\obj\Debug\net6.0\Игра 'Быки и кооровы'.pdb
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\obj\Debug\net6.0\Игра 'Быки и кооровы'.genruntimeconfig.cache
+C:\Users\пк\Desktop\Игра 'Быки и кооровы'\Игра 'Быки и кооровы'\obj\Debug\net6.0\ref\Игра 'Быки и кооровы'.dll
