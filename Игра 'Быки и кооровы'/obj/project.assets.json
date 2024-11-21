@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\пк\\Desktop\\Игра 'Быки и кооровы'\\Игра 'Быки и кооровы'\\Игра 'Быки и кооровы'.csproj",
+      "projectUniqueName": "C:\\Users\\пк\\Desktop\\Тестирование и отладка программного обеспечения\\Игра 'Быки и коровы'\\Игра 'Быки и кооровы'\\Игра 'Быки и кооровы'.csproj",
       "projectName": "Игра 'Быки и кооровы'",
-      "projectPath": "C:\\Users\\пк\\Desktop\\Игра 'Быки и кооровы'\\Игра 'Быки и кооровы'\\Игра 'Быки и кооровы'.csproj",
+      "projectPath": "C:\\Users\\пк\\Desktop\\Тестирование и отладка программного обеспечения\\Игра 'Быки и коровы'\\Игра 'Быки и кооровы'\\Игра 'Быки и кооровы'.csproj",
       "packagesPath": "C:\\Users\\пк\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\пк\\Desktop\\Игра 'Быки и кооровы'\\Игра 'Быки и кооровы'\\obj\\",
+      "outputPath": "C:\\Users\\пк\\Desktop\\Тестирование и отладка программного обеспечения\\Игра 'Быки и коровы'\\Игра 'Быки и кооровы'\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\пк\\AppData\\Roaming\\NuGet\\NuGet.Config",
