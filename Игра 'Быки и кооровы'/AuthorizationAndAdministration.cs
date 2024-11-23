@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,6 @@ namespace Игра__Быки_и_кооровы_
 {
     public class AuthorizationAndAdministration
     {
-        public static string UsersFilePath = "users.txt"; // Файл с информацией о пользователях
-        public static string ResultsFilePath = "results.txt"; // Файл с информацией о играх пользователей
-
         /// <summary>
         /// Авторизация игрока в системе, с возможностью регистрации
         /// </summary>
@@ -24,14 +22,14 @@ namespace Игра__Быки_и_кооровы_
                 string _inputName = Console.ReadLine();
                 Console.Write("Введите пароль: ");
                 string _inputPassword = Console.ReadLine();
-
                 if (infoList.ContainsKey(_inputName) && infoList[_inputName] == _inputPassword) // Если содержит имя и пароль
                 {
                     if (_inputName == "Влад")
                     {
                         Console.Clear();
                         string _answer;
-                        Console.WriteLine("Добро пожаловать в систему админ!");
+                        Console.WriteLine("Добро пожаловать в систему администратор!");
+                        Logging._logger.Information($"В систему вошел администратор {_inputName}");
                         do
                         {
                             AdminOperations();
@@ -44,8 +42,15 @@ namespace Игра__Быки_и_кооровы_
                     }
                     else
                     {
+                        Logging._logger.Information($"В систему вошел {_inputName}");
                         return _inputName;
                     }
+                }
+                else if (infoList.ContainsKey(_inputName) && infoList[_inputName] != _inputPassword) // Если имя правильное, но неверный пароль
+                {
+                    Console.WriteLine("Неверный пароль для логина, попытайтесь снова\n");
+                    Logging._logger.Warning($"Попытка войти в систему под логином {_inputName}");
+                    continue;
                 }
                 else // Иначе осуществление регистрации
                 {
@@ -53,30 +58,42 @@ namespace Игра__Быки_и_кооровы_
                     string _answer = Console.ReadLine();
                     if (_answer.ToLower() == "да")
                     {
-                        var _lines = new List<string>(File.ReadAllLines(UsersFilePath));
-                        Console.WriteLine("\nДобавьте нового пользователя:");
-                        Console.Write("Имя: ");
-                        _inputName = Console.ReadLine();
-                        if (_inputName.ToLower() == "влад" || _inputName.ToLower() == "vlad")
+                        try
                         {
-                            Console.WriteLine("Нельзя добавить 2-го администратора.\n");
-                            continue;
+                            var _lines = new List<string>(File.ReadAllLines(GameMechanics.UsersFilePath));
+                            Console.WriteLine("\nДобавьте нового пользователя:");
+                            Console.Write("Имя: ");
+                            _inputName = Console.ReadLine();
+                            if (_lines.Exists(line => line.StartsWith(_inputName + "-")))
+                            {
+                                Console.WriteLine("Такой пользователь уже есть\n");
+                                Logging._logger.Warning($"Попытка добавления имени пользователя, которое уже сушествует");
+                                continue;
+                            }
+                            Console.Write("Пароль: ");
+                            string _userPassword = Console.ReadLine();
+                            if (_inputName == "" || _userPassword == "")
+                            {
+                                Console.WriteLine("Вы не ввели имя или пароль\n");
+                                Logging._logger.Warning($"Не был введен пароль или логин для пользователя");
+                                continue;
+                            }
+                            using (StreamWriter _writer = new StreamWriter(GameMechanics.UsersFilePath, true))
+                            {
+                                _writer.WriteLine($"{_inputName}-{_userPassword}");
+                            }
+                            Console.WriteLine("Пользователь добавлен.\n");
+                            Logging._logger.Information($"Пользователь {_inputName} добавлен");
+                            infoList = LoadUserInfo();
+                            Console.Clear();
+                            Logging._logger.Information($"Зарегистрирован новый пользователь {_inputName}");
+                            return _inputName;
                         }
-                        if (_lines.Exists(line => line.StartsWith(_inputName + "-")))
+                        catch (Exception ex)
                         {
-                            Console.WriteLine("Такой пользователь уже есть\n");
-                            continue;
+                            Console.WriteLine("Ошибка при добавлении нового игрока");
+                            Logging._logger.Error(ex, "Ошибка при добавлении нового игрока");
                         }
-                        Console.Write("Пароль: ");
-                        string _userPassword = Console.ReadLine();
-                        using (StreamWriter _writer = new StreamWriter(UsersFilePath, true))
-                        {
-                            _writer.WriteLine($"{_inputName}-{_userPassword}");
-                        }
-                        Console.WriteLine("Пользователь добавлен.\n");
-                        infoList = AuthorizationAndAdministration.LoadUserInfo();
-                        Console.Clear();
-                        return _inputName;
                     }
                     Console.Clear();
                 }
@@ -96,10 +113,11 @@ namespace Игра__Быки_и_кооровы_
                 Console.WriteLine("4) Выход\n");
                 Console.Write("Выберите действие: ");
                 string _choice = Console.ReadLine();
+                Logging._logger.Information($"Администратор выбрал следующее действие {_choice}");
                 switch (_choice)
                 {
                     case "1": // Добавление игрока
-                        var _lines = new List<string>(File.ReadAllLines(UsersFilePath));
+                        var _lines = new List<string>(File.ReadAllLines(GameMechanics.UsersFilePath));
                         Console.WriteLine("Список пользователей:\n");
                         foreach (var _line in _lines)
                         {
@@ -108,26 +126,29 @@ namespace Игра__Быки_и_кооровы_
                         Console.WriteLine("\nДобавьте нового пользователя:");
                         Console.Write("Имя: ");
                         string _userName = Console.ReadLine();
-                        if (_userName.ToLower() == "влад" || _userName.ToLower() == "vlad")
-                        {
-                            Console.WriteLine("Нельзя добавить 2-го администратора.\n");
-                            break;
-                        }
                         if (_lines.Exists(line => line.StartsWith(_userName + "-")))
                         {
                             Console.WriteLine("Такой пользователь уже есть\n");
+                            Logging._logger.Warning($"Попытка добавления имени пользователя, которое уже сушествует");
                             break;
                         }
                         Console.Write("Пароль: ");
                         string _userPassword = Console.ReadLine();
-                        using (StreamWriter _writer = new StreamWriter(UsersFilePath, true))
+                        if (_userName == "" || _userPassword == "")
+                        {
+                            Console.WriteLine("Вы не ввели имя или пароль\n");
+                            Logging._logger.Warning($"Не был введен пароль или логин для пользователя");
+                            break;
+                        }
+                        using (StreamWriter _writer = new StreamWriter(GameMechanics.UsersFilePath, true))
                         {
                             _writer.WriteLine($"{_userName}-{_userPassword}");
                         }
                         Console.WriteLine("Пользователь добавлен.\n");
+                        Logging._logger.Information($"Пользователь {_userName} добавлен");
                         break;
                     case "2": // Удаление игрока
-                        _lines = new List<string>(File.ReadAllLines(UsersFilePath));
+                        _lines = new List<string>(File.ReadAllLines(GameMechanics.UsersFilePath));
                         Console.WriteLine("Список пользователей:\n");
                         foreach (var _line in _lines)
                         {
@@ -136,30 +157,36 @@ namespace Игра__Быки_и_кооровы_
                         Console.WriteLine("\nУдалите нужного пользователя:");
                         Console.Write("Имя: ");
                         _userName = Console.ReadLine();
-                        if (_userName.ToLower() == "влад" || _userName.ToLower() == "vlad")
+                        if (_userName.ToLower() == "влад")
                         {
-                            Console.WriteLine("Невозможно удалить Администратора.\n");
+                            Console.WriteLine("Невозможно удалить администратора.\n");
+                            Logging._logger.Warning("Попытка удалить администратора");
                             break;
                         }
                         if (!_lines.Exists(line => line.StartsWith(_userName + "-")))
                         {
                             Console.WriteLine("Такого пользователя нет.\n");
+                            Logging._logger.Warning("Попытка удалить несуществующего пользователя");
                             break;
                         }
                         _lines.RemoveAll(line => line.StartsWith(_userName + "-"));
-                        File.WriteAllLines(UsersFilePath, _lines);
-                        _lines = new List<string>(File.ReadAllLines(ResultsFilePath));
+                        File.WriteAllLines(GameMechanics.UsersFilePath, _lines);
+                        _lines = new List<string>(File.ReadAllLines(GameMechanics.ResultsFilePath));
                         _lines.RemoveAll(line => line.StartsWith(_userName + "-"));
-                        File.WriteAllLines(ResultsFilePath, _lines);
+                        File.WriteAllLines(GameMechanics.ResultsFilePath, _lines);
                         Console.WriteLine("Пользователь удален.\n");
+                        Logging._logger.Information($"Пользователь {_userName} удален");
                         break;
                     case "3": // Начало игры
+                        Logging._logger.Information($"Администратор начал игру");
                         return;
                     default: // Ввод неправильной операции
                         Console.WriteLine("Неверная операция, пожалуйста, выберите снова.\n");
+                        Logging._logger.Warning("Администратор ввел неправильную команду");
                         break;
                     case "4": // Выход
                         Environment.Exit(0);
+                        Logging._logger.Information("Администратор вышел из приложения");
                         break;
                 }
             }
@@ -172,9 +199,9 @@ namespace Игра__Быки_и_кооровы_
         public static Dictionary<string, string> LoadUserInfo()
         {
             Dictionary<string, string> _infoList = new Dictionary<string, string>();
-            if (File.Exists(UsersFilePath))
+            if (File.Exists(GameMechanics.UsersFilePath))
             {
-                using (StreamReader _reader = new StreamReader(UsersFilePath))
+                using (StreamReader _reader = new StreamReader(GameMechanics.UsersFilePath))
                 {
                     string _line;
                     while ((_line = _reader.ReadLine()) != null)

@@ -69,23 +69,30 @@ namespace Игра__Быки_и_кооровы_
         /// <param name="leaderboard">Словарь рекордов, который необходимо обновить</param>
         public static void UpdateLeaderboard(string playerName, int attempts, Dictionary<string, (int Wins, int Attempts)> leaderboard)
         {
-            if (leaderboard.ContainsKey(playerName)) // Если содержит имя игрока
+            try
             {
-                var _playerStats = leaderboard[playerName];
-                _playerStats.Wins++;
-                _playerStats.Attempts += attempts;
-                leaderboard[playerName] = _playerStats;
-            }
-            else // Иначе создается новвый игрок
-            {
-                leaderboard[playerName] = (1, attempts);
-            }
-            using (StreamWriter _writer = new StreamWriter(ResultsFilePath))
-            {
-                foreach (var _player in leaderboard)
+                if (leaderboard.ContainsKey(playerName)) // Если содержит имя игрока
                 {
-                    _writer.WriteLine($"{_player.Key}-{_player.Value.Wins}-{_player.Value.Attempts}");
+                    var _playerStats = leaderboard[playerName];
+                    _playerStats.Wins++;
+                    _playerStats.Attempts += attempts;
+                    leaderboard[playerName] = _playerStats;
                 }
+                else // Иначе создается новвый игрок
+                {
+                    leaderboard[playerName] = (1, attempts);
+                }
+                using (StreamWriter _writer = new StreamWriter(ResultsFilePath))
+                {
+                    foreach (var _player in leaderboard)
+                    {
+                        _writer.WriteLine($"{_player.Key}-{_player.Value.Wins}-{_player.Value.Attempts}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ошибка при обновлении таблицы рекордов");
             }
         }
 

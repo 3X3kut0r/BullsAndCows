@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "9r8dYttNM/Y9+9rISlVe/E90QUvUsPtKCkcFAe3rBBnvsa2Kyik9Tjj1TYL/uF1DX/V6PpDqr6xbUgT9EN9/xw==",
+  "dgSpecHash": "MiZr6+JE8dSVIw4zjwXV/PrzlQd+7mXS0VaO2+QGEjDSOwPr3iNAyqnqj09xc5GsKZNMiTAtCwmM+iTG19y4Jg==",
   "success": true,
   "projectFilePath": "C:\\Users\\пк\\Desktop\\Тестирование и отладка программного обеспечения\\Игра 'Быки и коровы'\\Игра 'Быки и кооровы'\\Игра 'Быки и кооровы'.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\пк\\.nuget\\packages\\serilog\\4.1.0\\serilog.4.1.0.nupkg.sha512",
+    "C:\\Users\\пк\\.nuget\\packages\\serilog.sinks.console\\6.0.0\\serilog.sinks.console.6.0.0.nupkg.sha512",
+    "C:\\Users\\пк\\.nuget\\packages\\serilog.sinks.file\\6.0.0\\serilog.sinks.file.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
