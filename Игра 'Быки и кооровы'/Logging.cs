@@ -10,11 +10,11 @@ namespace Игра__Быки_и_кооровы_
 {
     public class Logging
     {
-        public static readonly ILogger _logger;
+        public static readonly ILogger Logger;
 
         static Logging()
         {
-            _logger = new LoggerConfiguration()
+            Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
@@ -28,7 +28,7 @@ namespace Игра__Быки_и_кооровы_
         /// <returns>Экземпляр ILogger для логирования</returns>
         public static ILogger GetLog()
         {
-            return _logger;
+            return Logger;
         }
     }
 }

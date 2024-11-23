@@ -29,7 +29,7 @@ namespace Игра__Быки_и_кооровы_
                         Console.Clear();
                         string _answer;
                         Console.WriteLine("Добро пожаловать в систему администратор!");
-                        Logging._logger.Information($"В систему вошел администратор {_inputName}");
+                        Logging.Logger.Information($"В систему вошел администратор {_inputName}");
                         do
                         {
                             AdminOperations();
@@ -42,14 +42,14 @@ namespace Игра__Быки_и_кооровы_
                     }
                     else
                     {
-                        Logging._logger.Information($"В систему вошел {_inputName}");
+                        Logging.Logger.Information($"В систему вошел {_inputName}");
                         return _inputName;
                     }
                 }
                 else if (infoList.ContainsKey(_inputName) && infoList[_inputName] != _inputPassword) // Если имя правильное, но неверный пароль
                 {
                     Console.WriteLine("Неверный пароль для логина, попытайтесь снова\n");
-                    Logging._logger.Warning($"Попытка войти в систему под логином {_inputName}");
+                    Logging.Logger.Warning($"Попытка войти в систему под логином {_inputName}");
                     continue;
                 }
                 else // Иначе осуществление регистрации
@@ -67,7 +67,7 @@ namespace Игра__Быки_и_кооровы_
                             if (_lines.Exists(line => line.StartsWith(_inputName + "-")))
                             {
                                 Console.WriteLine("Такой пользователь уже есть\n");
-                                Logging._logger.Warning($"Попытка добавления имени пользователя, которое уже сушествует");
+                                Logging.Logger.Warning($"Попытка добавления имени пользователя, которое уже сушествует");
                                 continue;
                             }
                             Console.Write("Пароль: ");
@@ -75,7 +75,7 @@ namespace Игра__Быки_и_кооровы_
                             if (_inputName == "" || _userPassword == "")
                             {
                                 Console.WriteLine("Вы не ввели имя или пароль\n");
-                                Logging._logger.Warning($"Не был введен пароль или логин для пользователя");
+                                Logging.Logger.Warning($"Не был введен пароль или логин для пользователя");
                                 continue;
                             }
                             using (StreamWriter _writer = new StreamWriter(GameMechanics.UsersFilePath, true))
@@ -83,16 +83,16 @@ namespace Игра__Быки_и_кооровы_
                                 _writer.WriteLine($"{_inputName}-{_userPassword}");
                             }
                             Console.WriteLine("Пользователь добавлен.\n");
-                            Logging._logger.Information($"Пользователь {_inputName} добавлен");
+                            Logging.Logger.Information($"Пользователь {_inputName} добавлен");
                             infoList = LoadUserInfo();
                             Console.Clear();
-                            Logging._logger.Information($"Зарегистрирован новый пользователь {_inputName}");
+                            Logging.Logger.Information($"Зарегистрирован новый пользователь {_inputName}");
                             return _inputName;
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine("Ошибка при добавлении нового игрока");
-                            Logging._logger.Error(ex, "Ошибка при добавлении нового игрока");
+                            Logging.Logger.Error(ex, "Ошибка при добавлении нового игрока");
                         }
                     }
                     Console.Clear();
@@ -113,7 +113,7 @@ namespace Игра__Быки_и_кооровы_
                 Console.WriteLine("4) Выход\n");
                 Console.Write("Выберите действие: ");
                 string _choice = Console.ReadLine();
-                Logging._logger.Information($"Администратор выбрал следующее действие {_choice}");
+                Logging.Logger.Information($"Администратор выбрал следующее действие {_choice}");
                 switch (_choice)
                 {
                     case "1": // Добавление игрока
@@ -129,7 +129,7 @@ namespace Игра__Быки_и_кооровы_
                         if (_lines.Exists(line => line.StartsWith(_userName + "-")))
                         {
                             Console.WriteLine("Такой пользователь уже есть\n");
-                            Logging._logger.Warning($"Попытка добавления имени пользователя, которое уже сушествует");
+                            Logging.Logger.Warning($"Попытка добавления имени пользователя, которое уже сушествует");
                             break;
                         }
                         Console.Write("Пароль: ");
@@ -137,7 +137,7 @@ namespace Игра__Быки_и_кооровы_
                         if (_userName == "" || _userPassword == "")
                         {
                             Console.WriteLine("Вы не ввели имя или пароль\n");
-                            Logging._logger.Warning($"Не был введен пароль или логин для пользователя");
+                            Logging.Logger.Warning($"Не был введен пароль или логин для пользователя");
                             break;
                         }
                         using (StreamWriter _writer = new StreamWriter(GameMechanics.UsersFilePath, true))
@@ -145,7 +145,7 @@ namespace Игра__Быки_и_кооровы_
                             _writer.WriteLine($"{_userName}-{_userPassword}");
                         }
                         Console.WriteLine("Пользователь добавлен.\n");
-                        Logging._logger.Information($"Пользователь {_userName} добавлен");
+                        Logging.Logger.Information($"Пользователь {_userName} добавлен");
                         break;
                     case "2": // Удаление игрока
                         _lines = new List<string>(File.ReadAllLines(GameMechanics.UsersFilePath));
@@ -160,13 +160,13 @@ namespace Игра__Быки_и_кооровы_
                         if (_userName.ToLower() == "влад")
                         {
                             Console.WriteLine("Невозможно удалить администратора.\n");
-                            Logging._logger.Warning("Попытка удалить администратора");
+                            Logging.Logger.Warning("Попытка удалить администратора");
                             break;
                         }
                         if (!_lines.Exists(line => line.StartsWith(_userName + "-")))
                         {
                             Console.WriteLine("Такого пользователя нет.\n");
-                            Logging._logger.Warning("Попытка удалить несуществующего пользователя");
+                            Logging.Logger.Warning("Попытка удалить несуществующего пользователя");
                             break;
                         }
                         _lines.RemoveAll(line => line.StartsWith(_userName + "-"));
@@ -175,18 +175,18 @@ namespace Игра__Быки_и_кооровы_
                         _lines.RemoveAll(line => line.StartsWith(_userName + "-"));
                         File.WriteAllLines(GameMechanics.ResultsFilePath, _lines);
                         Console.WriteLine("Пользователь удален.\n");
-                        Logging._logger.Information($"Пользователь {_userName} удален");
+                        Logging.Logger.Information($"Пользователь {_userName} удален");
                         break;
                     case "3": // Начало игры
-                        Logging._logger.Information($"Администратор начал игру");
+                        Logging.Logger.Information($"Администратор начал игру");
                         return;
                     default: // Ввод неправильной операции
                         Console.WriteLine("Неверная операция, пожалуйста, выберите снова.\n");
-                        Logging._logger.Warning("Администратор ввел неправильную команду");
+                        Logging.Logger.Warning("Администратор ввел неправильную команду");
                         break;
                     case "4": // Выход
                         Environment.Exit(0);
-                        Logging._logger.Information("Администратор вышел из приложения");
+                        Logging.Logger.Information("Администратор вышел из приложения");
                         break;
                 }
             }

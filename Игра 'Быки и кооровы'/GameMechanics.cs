@@ -93,6 +93,7 @@ namespace Игра__Быки_и_кооровы_
             catch (Exception ex)
             {
                 Console.WriteLine("Ошибка при обновлении таблицы рекордов");
+                Logging.Logger.Error(ex, "Ошибка при обновлении таблицы рекордов");
             }
         }
 
