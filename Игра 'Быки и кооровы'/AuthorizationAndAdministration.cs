@@ -58,42 +58,34 @@ namespace Игра__Быки_и_кооровы_
                     string _answer = Console.ReadLine();
                     if (_answer.ToLower() == "да")
                     {
-                        try
+                        var _lines = new List<string>(File.ReadAllLines(GameMechanics.UsersFilePath));
+                        Console.WriteLine("\nДобавьте нового пользователя:");
+                        Console.Write("Имя: ");
+                        _inputName = Console.ReadLine();
+                        if (_lines.Exists(line => line.StartsWith(_inputName + "-")))
                         {
-                            var _lines = new List<string>(File.ReadAllLines(GameMechanics.UsersFilePath));
-                            Console.WriteLine("\nДобавьте нового пользователя:");
-                            Console.Write("Имя: ");
-                            _inputName = Console.ReadLine();
-                            if (_lines.Exists(line => line.StartsWith(_inputName + "-")))
-                            {
-                                Console.WriteLine("Такой пользователь уже есть\n");
-                                Logging.Logger.Warning($"Попытка добавления имени пользователя, которое уже сушествует");
-                                continue;
-                            }
-                            Console.Write("Пароль: ");
-                            string _userPassword = Console.ReadLine();
-                            if (_inputName == "" || _userPassword == "")
-                            {
-                                Console.WriteLine("Вы не ввели имя или пароль\n");
-                                Logging.Logger.Warning($"Не был введен пароль или логин для пользователя");
-                                continue;
-                            }
-                            using (StreamWriter _writer = new StreamWriter(GameMechanics.UsersFilePath, true))
-                            {
-                                _writer.WriteLine($"{_inputName}-{_userPassword}");
-                            }
-                            Console.WriteLine("Пользователь добавлен.\n");
-                            Logging.Logger.Information($"Пользователь {_inputName} добавлен");
-                            infoList = LoadUserInfo();
-                            Console.Clear();
-                            Logging.Logger.Information($"Зарегистрирован новый пользователь {_inputName}");
-                            return _inputName;
+                            Console.WriteLine("Такой пользователь уже есть\n");
+                            Logging.Logger.Warning($"Попытка добавления имени пользователя, которое уже сушествует");
+                            continue;
                         }
-                        catch (Exception ex)
+                        Console.Write("Пароль: ");
+                        string _userPassword = Console.ReadLine();
+                        if (string.IsNullOrWhiteSpace(_inputName) || string.IsNullOrWhiteSpace(_userPassword))
                         {
-                            Console.WriteLine("Ошибка при добавлении нового игрока");
-                            Logging.Logger.Error(ex, "Ошибка при добавлении нового игрока");
+                            Console.WriteLine("Вы не ввели имя или пароль, или имя или пароль состоят только из пробелов\n");
+                            Logging.Logger.Warning($"Не был введен пароль или логин для пользователя");
+                            continue;
                         }
+                        using (StreamWriter _writer = new StreamWriter(GameMechanics.UsersFilePath, true))
+                        {
+                            _writer.WriteLine($"{_inputName}-{_userPassword}");
+                        }
+                        Console.WriteLine("Пользователь добавлен.\n");
+                        Logging.Logger.Information($"Пользователь {_inputName} добавлен");
+                        infoList = LoadUserInfo();
+                        Console.Clear();
+                        Logging.Logger.Information($"Зарегистрирован новый пользователь {_inputName}");
+                        return _inputName;
                     }
                     Console.Clear();
                 }
@@ -134,9 +126,9 @@ namespace Игра__Быки_и_кооровы_
                         }
                         Console.Write("Пароль: ");
                         string _userPassword = Console.ReadLine();
-                        if (_userName == "" || _userPassword == "")
+                        if (string.IsNullOrWhiteSpace(_userName) || string.IsNullOrWhiteSpace(_userPassword))
                         {
-                            Console.WriteLine("Вы не ввели имя или пароль\n");
+                            Console.WriteLine("Вы не ввели имя или пароль, или имя или пароль состоят только из пробелов\n");
                             Logging.Logger.Warning($"Не был введен пароль или логин для пользователя");
                             break;
                         }
@@ -185,8 +177,8 @@ namespace Игра__Быки_и_кооровы_
                         Logging.Logger.Warning("Администратор ввел неправильную команду");
                         break;
                     case "4": // Выход
-                        Environment.Exit(0);
                         Logging.Logger.Information("Администратор вышел из приложения");
+                        Environment.Exit(0);
                         break;
                 }
             }
