@@ -47,33 +47,7 @@
 
 ## Генерация числа:
 
-static string GenerateSecretNumber(int length)
-
-{
-
-    Random random = new Random();
-
-    string result = "";
-
-    while (result.Length < length)
-
-    {
-
-        string nextDigit = random.Next(0, 10).ToString();
-
-        if (!result.Contains(nextDigit))
-
-        {
-
-            result += nextDigit;
-
-        }
-
-    }
-
-    return result;
-    
-}
+![Logotype](./codegenerator.jpg.jpg)
 
 ## Документация
 
