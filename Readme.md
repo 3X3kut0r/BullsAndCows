@@ -47,7 +47,7 @@
 
 ## Генерация числа:
 
-![Logotype](./codegenerator.jpg.jpg)
+![Logotype](./codegenerator.jpg)
 
 ## Документация
 
