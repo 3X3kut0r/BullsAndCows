@@ -14,11 +14,11 @@ namespace Игра__Быки_и_кооровы_
 
         static Logging()
         {
-            Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                .Enrich.FromLogContext()
-                .WriteTo.File("gamelogs/logger.txt", rollingInterval: RollingInterval.Day)
+            Logger = new LoggerConfiguration() // Создаю поведение логгера
+                .MinimumLevel.Information() // С какого уровня будут логироваться сообщения
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning) // До какого уровня будет логировать
+                .Enrich.FromLogContext() // Добавляет комментарии к логу, т.е. что произошло
+                .WriteTo.File("gamelogs/logger.txt", rollingInterval: RollingInterval.Day) // В какой файлик производится запись c интервалом времени 1 день
                 .CreateLogger();
         }
 

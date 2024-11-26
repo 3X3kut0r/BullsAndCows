@@ -9,6 +9,8 @@ namespace Игра__Быки_и_кооровы_
 {
     public class AuthorizationAndAdministration
     {
+        public static string UsersFilePath = "users.txt"; // Файл с информацией о пользователях
+
         /// <summary>
         /// Авторизация игрока в системе, с возможностью регистрации
         /// </summary>
@@ -58,7 +60,7 @@ namespace Игра__Быки_и_кооровы_
                     string _answer = Console.ReadLine();
                     if (_answer.ToLower() == "да")
                     {
-                        var _lines = new List<string>(File.ReadAllLines(GameMechanics.UsersFilePath));
+                        var _lines = new List<string>(File.ReadAllLines(UsersFilePath));
                         Console.WriteLine("\nДобавьте нового пользователя:");
                         Console.Write("Имя: ");
                         _inputName = Console.ReadLine();
@@ -76,7 +78,7 @@ namespace Игра__Быки_и_кооровы_
                             Logging.Logger.Warning($"Не был введен пароль или логин для пользователя");
                             continue;
                         }
-                        using (StreamWriter _writer = new StreamWriter(GameMechanics.UsersFilePath, true))
+                        using (StreamWriter _writer = new StreamWriter(UsersFilePath, true))
                         {
                             _writer.WriteLine($"{_inputName}-{_userPassword}");
                         }
@@ -109,7 +111,7 @@ namespace Игра__Быки_и_кооровы_
                 switch (_choice)
                 {
                     case "1": // Добавление игрока
-                        var _lines = new List<string>(File.ReadAllLines(GameMechanics.UsersFilePath));
+                        var _lines = new List<string>(File.ReadAllLines(UsersFilePath));
                         Console.WriteLine("Список пользователей:\n");
                         foreach (var _line in _lines)
                         {
@@ -132,7 +134,7 @@ namespace Игра__Быки_и_кооровы_
                             Logging.Logger.Warning($"Не был введен пароль или логин для пользователя");
                             break;
                         }
-                        using (StreamWriter _writer = new StreamWriter(GameMechanics.UsersFilePath, true))
+                        using (StreamWriter _writer = new StreamWriter(UsersFilePath, true))
                         {
                             _writer.WriteLine($"{_userName}-{_userPassword}");
                         }
@@ -140,7 +142,7 @@ namespace Игра__Быки_и_кооровы_
                         Logging.Logger.Information($"Пользователь {_userName} добавлен");
                         break;
                     case "2": // Удаление игрока
-                        _lines = new List<string>(File.ReadAllLines(GameMechanics.UsersFilePath));
+                        _lines = new List<string>(File.ReadAllLines(UsersFilePath));
                         Console.WriteLine("Список пользователей:\n");
                         foreach (var _line in _lines)
                         {
@@ -162,7 +164,7 @@ namespace Игра__Быки_и_кооровы_
                             break;
                         }
                         _lines.RemoveAll(line => line.StartsWith(_userName + "-"));
-                        File.WriteAllLines(GameMechanics.UsersFilePath, _lines);
+                        File.WriteAllLines(UsersFilePath, _lines);
                         _lines = new List<string>(File.ReadAllLines(GameMechanics.ResultsFilePath));
                         _lines.RemoveAll(line => line.StartsWith(_userName + "-"));
                         File.WriteAllLines(GameMechanics.ResultsFilePath, _lines);
@@ -191,9 +193,9 @@ namespace Игра__Быки_и_кооровы_
         public static Dictionary<string, string> LoadUserInfo()
         {
             Dictionary<string, string> _infoList = new Dictionary<string, string>();
-            if (File.Exists(GameMechanics.UsersFilePath))
+            if (File.Exists(UsersFilePath))
             {
-                using (StreamReader _reader = new StreamReader(GameMechanics.UsersFilePath))
+                using (StreamReader _reader = new StreamReader(UsersFilePath))
                 {
                     string _line;
                     while ((_line = _reader.ReadLine()) != null)

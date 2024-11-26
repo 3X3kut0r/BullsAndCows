@@ -7,8 +7,8 @@ namespace Игра__Быки_и_кооровы_
     {
         static void Main(string[] args)
         {
-            Game game = new Game();
-            game.GamePlay();
+            Game _game = new Game();
+            _game.GamePlay();
         }
     }
 }
