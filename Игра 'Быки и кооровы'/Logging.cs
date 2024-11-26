@@ -10,7 +10,7 @@ namespace Игра__Быки_и_кооровы_
 {
     public class Logging
     {
-        public static readonly ILogger Logger;
+        public static ILogger Logger;
 
         static Logging()
         {
